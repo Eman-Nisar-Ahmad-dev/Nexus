@@ -1,3 +1,4 @@
+import { MeetingCalendar } from '../../components/calendar/MeetingCalendar';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Users, Bell, Calendar, TrendingUp, AlertCircle, PlusCircle } from 'lucide-react';
@@ -113,7 +114,7 @@ export const EntrepreneurDashboard: React.FC = () => {
           </CardBody>
         </Card>
       </div>
-      
+      <MeetingCalendar />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Collaboration requests */}
         <div className="lg:col-span-2 space-y-4">

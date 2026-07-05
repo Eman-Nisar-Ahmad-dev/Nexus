@@ -56,6 +56,14 @@ export interface CollaborationRequest {
   status: 'pending' | 'accepted' | 'rejected';
   createdAt: string;
 }
+export interface Meeting {
+  id: string;
+  title: string;
+  date: string;
+  investorId: string;
+  entrepreneurId: string;
+  status: 'confirmed';
+}
 
 export interface Document {
   id: string;

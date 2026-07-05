@@ -1,4 +1,4 @@
-import React from 'react';
+import { MeetingProvider } from './context/MeetingContext';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
@@ -29,11 +29,13 @@ import { DealsPage } from './pages/deals/DealsPage';
 
 // Chat Pages
 import { ChatPage } from './pages/chat/ChatPage';
+import { VideoCallPage } from './pages/video/VideoCallPage';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+<AuthProvider>
+  <MeetingProvider>
+    <Router>
         <Routes>
           {/* Authentication Routes */}
           <Route path="/login" element={<LoginPage />} />
@@ -95,9 +97,14 @@ function App() {
           
           {/* Catch all other routes and redirect to login */}
           <Route path="*" element={<Navigate to="/login" replace />} />
+
+          <Route path="/video-call" element={<DashboardLayout />}>
+  <Route index element={<VideoCallPage />} />
+</Route>
         </Routes>
-      </Router>
-    </AuthProvider>
+    </Router>
+</MeetingProvider>
+</AuthProvider>
   );
 }
 

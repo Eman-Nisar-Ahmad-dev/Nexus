@@ -9,6 +9,8 @@ import { Button } from '../ui/Button';
 import { findUserById } from '../../data/users';
 import { updateRequestStatus } from '../../data/collaborationRequests';
 import { formatDistanceToNow } from 'date-fns';
+import { useMeetings } from '../../context/MeetingContext';
+
 
 interface CollaborationRequestCardProps {
   request: CollaborationRequest;
@@ -20,16 +22,27 @@ export const CollaborationRequestCard: React.FC<CollaborationRequestCardProps> =
   onStatusUpdate
 }) => {
   const navigate = useNavigate();
+  const { addMeeting } = useMeetings();
   const investor = findUserById(request.investorId);
   
   if (!investor) return null;
   
-  const handleAccept = () => {
-    updateRequestStatus(request.id, 'accepted');
-    if (onStatusUpdate) {
-      onStatusUpdate(request.id, 'accepted');
-    }
-  };
+const handleAccept = () => {
+  updateRequestStatus(request.id, 'accepted');
+
+  addMeeting({
+    id: Date.now().toString(),
+    title: `Meeting with ${investor.name}`,
+    date: new Date().toISOString().split('T')[0],
+    investorId: investor.id,
+    entrepreneurId: request.entrepreneurId,
+    status: 'confirmed',
+  });
+
+  if (onStatusUpdate) {
+    onStatusUpdate(request.id, 'accepted');
+  }
+};
   
   const handleReject = () => {
     updateRequestStatus(request.id, 'rejected');
