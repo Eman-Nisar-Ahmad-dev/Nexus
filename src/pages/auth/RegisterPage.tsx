@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import zxcvbn from 'zxcvbn';
 import { User, Mail, Lock, CircleDollarSign, Building2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { UserRole } from '../../types';
+
+const strengthLabels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+const strengthColors = ['bg-error-500', 'bg-error-400', 'bg-accent-500', 'bg-primary-500', 'bg-success-500'];
 
 export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -14,22 +18,27 @@ export const RegisterPage: React.FC = () => {
   const [role, setRole] = useState<UserRole>('entrepreneur');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { register } = useAuth();
   const navigate = useNavigate();
-  
+
+  const passwordStrength = useMemo(() => {
+    if (!password) return null;
+    return zxcvbn(password);
+  }, [password]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    
+
     // Validate passwords match
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
       await register(name, email, password, role);
       // Redirect based on user role
@@ -39,7 +48,7 @@ export const RegisterPage: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -67,7 +76,7 @@ export const RegisterPage: React.FC = () => {
               <span>{error}</span>
             </div>
           )}
-          
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -86,7 +95,7 @@ export const RegisterPage: React.FC = () => {
                   <Building2 size={18} className="mr-2" />
                   Entrepreneur
                 </button>
-                
+
                 <button
                   type="button"
                   className={`py-3 px-4 border rounded-md flex items-center justify-center transition-colors ${
@@ -101,7 +110,7 @@ export const RegisterPage: React.FC = () => {
                 </button>
               </div>
             </div>
-            
+
             <Input
               label="Full name"
               type="text"
@@ -111,7 +120,7 @@ export const RegisterPage: React.FC = () => {
               fullWidth
               startAdornment={<User size={18} />}
             />
-            
+
             <Input
               label="Email address"
               type="email"
@@ -121,17 +130,42 @@ export const RegisterPage: React.FC = () => {
               fullWidth
               startAdornment={<Mail size={18} />}
             />
-            
-            <Input
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              fullWidth
-              startAdornment={<Lock size={18} />}
-            />
-            
+
+            <div>
+              <Input
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                fullWidth
+                startAdornment={<Lock size={18} />}
+              />
+
+              {passwordStrength && (
+                <div className="mt-2">
+                  <div className="flex gap-1">
+                    {[0, 1, 2, 3, 4].map(i => (
+                      <div
+                        key={i}
+                        className={`h-1.5 flex-1 rounded-full ${
+                          i <= passwordStrength.score
+                            ? strengthColors[passwordStrength.score]
+                            : 'bg-gray-200'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Strength: <span className="font-medium">{strengthLabels[passwordStrength.score]}</span>
+                    {passwordStrength.feedback.warning && (
+                      <span className="text-gray-500"> — {passwordStrength.feedback.warning}</span>
+                    )}
+                  </p>
+                </div>
+              )}
+            </div>
+
             <Input
               label="Confirm password"
               type="password"
@@ -141,7 +175,7 @@ export const RegisterPage: React.FC = () => {
               fullWidth
               startAdornment={<Lock size={18} />}
             />
-            
+
             <div className="flex items-center">
               <input
                 id="terms"
@@ -161,7 +195,7 @@ export const RegisterPage: React.FC = () => {
                 </a>
               </label>
             </div>
-            
+
             <Button
               type="submit"
               fullWidth
@@ -170,7 +204,7 @@ export const RegisterPage: React.FC = () => {
               Create account
             </Button>
           </form>
-          
+
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -180,7 +214,7 @@ export const RegisterPage: React.FC = () => {
                 <span className="px-2 bg-white text-gray-500">Or</span>
               </div>
             </div>
-            
+
             <div className="mt-2 text-center">
               <p className="text-sm text-gray-600">
                 Already have an account?{' '}
