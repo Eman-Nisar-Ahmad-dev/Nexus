@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Menu, X, Bell, MessageCircle, User, LogOut, Building2, CircleDollarSign } from 'lucide-react';
+import { Menu, X, Bell, MessageCircle, User, LogOut, Building2, CircleDollarSign, FileText, Video, Wallet } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
@@ -28,29 +28,43 @@ export const Navbar: React.FC = () => {
   const profileRoute = user 
     ? `/profile/${user.role}/${user.id}` 
     : '/login';
-  
   const navLinks = [
-    {
-      icon: user?.role === 'entrepreneur' ? <Building2 size={18} /> : <CircleDollarSign size={18} />,
-      text: 'Dashboard',
-      path: dashboardRoute,
-    },
-    {
-      icon: <MessageCircle size={18} />,
-      text: 'Messages',
-      path: user ? '/messages' : '/login',
-    },
-    {
-      icon: <Bell size={18} />,
-      text: 'Notifications',
-      path: user ? '/notifications' : '/login',
-    },
-    {
-      icon: <User size={18} />,
-      text: 'Profile',
-      path: profileRoute,
-    }
-  ];
+  {
+    icon: user?.role === 'entrepreneur' ? <Building2 size={18} /> : <CircleDollarSign size={18} />,
+    text: 'Dashboard',
+    path: dashboardRoute,
+  },
+  {
+    icon: <MessageCircle size={18} />,
+    text: 'Messages',
+    path: user ? '/messages' : '/login',
+  },
+  {
+    icon: <Bell size={18} />,
+    text: 'Notifications',
+    path: user ? '/notifications' : '/login',
+  },
+  {
+    icon: <FileText size={18} />,
+    text: 'Documents',
+    path: user ? '/documents' : '/login',
+  },
+  {
+    icon: <Video size={18} />,
+    text: 'Video Call',
+    path: user ? '/video-call' : '/login',
+  },
+  {
+    icon: <Wallet size={18} />,
+    text: 'Payments',
+    path: user ? '/payments' : '/login',
+  },
+  {
+    icon: <User size={18} />,
+    text: 'Profile',
+    path: profileRoute,
+  }
+];
   
   return (
     <nav className="bg-white shadow-md">

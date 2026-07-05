@@ -158,9 +158,9 @@ export const DocumentsPage: React.FC = () => {
 
             {documents.map(doc => (
               <div
-                key={doc.id}
-                className="flex items-center p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-              >
+  key={doc.id}
+  className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+>
                 <div
                   className="p-2 bg-primary-50 rounded-lg mr-4 cursor-pointer"
                   onClick={() => doc.fileUrl && setPreviewDoc(doc)}
@@ -169,7 +169,7 @@ export const DocumentsPage: React.FC = () => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap sm:ml-4">
                     <h3
                       className="text-sm font-medium text-gray-900 truncate cursor-pointer hover:underline"
                       onClick={() => doc.fileUrl && setPreviewDoc(doc)}
