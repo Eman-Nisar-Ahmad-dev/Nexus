@@ -86,12 +86,12 @@ export const Navbar: React.FC = () => {
           {/* Desktop navigation */}
           <div className="hidden md:flex md:items-center md:ml-6">
             {user ? (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
                 {navLinks.map((link, index) => (
                   <Link
                     key={index}
                     to={link.path}
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                    className="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200 whitespace-nowrap"
                   >
                     <span className="mr-2">{link.icon}</span>
                     {link.text}
@@ -106,15 +106,16 @@ export const Navbar: React.FC = () => {
                   Logout
                 </Button>
                 
-                <Link to={profileRoute} className="flex items-center space-x-2 ml-2">
-                  <Avatar
-                    src={user.avatarUrl}
-                    alt={user.name}
-                    size="sm"
-                    status={user.isOnline ? 'online' : 'offline'}
-                  />
-                  <span className="text-sm font-medium text-gray-700">{user.name}</span>
-                </Link>
+
+                <Link to={profileRoute} className="flex items-center space-x-2 ml-2 flex-shrink-0">
+  <Avatar
+    src={user.avatarUrl}
+    alt={user.name}
+    size="sm"
+    status={user.isOnline ? 'online' : 'offline'}
+  />
+  <span className="text-sm font-medium text-gray-700 whitespace-nowrap hidden lg:inline">{user.name}</span>
+</Link>
               </div>
             ) : (
               <div className="flex items-center space-x-4">
