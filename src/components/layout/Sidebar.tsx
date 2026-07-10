@@ -5,16 +5,17 @@ import {
   Home, Building2, CircleDollarSign, Users, MessageCircle, 
   Bell, FileText, Settings, HelpCircle, Video, Wallet
 } from 'lucide-react';
-
 interface SidebarItemProps {
   to: string;
   icon: React.ReactNode;
   text: string;
+  id?: string;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text, id }) => {
   return (
     <NavLink
+      id={id}
       to={to}
       className={({ isActive }) => 
         `flex items-center py-2.5 px-4 rounded-md transition-colors duration-200 ${
@@ -42,9 +43,9 @@ export const Sidebar: React.FC = () => {
   { to: '/investors', icon: <CircleDollarSign size={20} />, text: 'Find Investors' },
   { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
   { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
-  { to: '/documents', icon: <FileText size={20} />, text: 'Documents' },
-  { to: '/video-call', icon: <Video size={20} />, text: 'Video Call' },
-  { to: '/payments', icon: <Wallet size={20} />, text: 'Payments' },
+  { to: '/documents', icon: <FileText size={20} />, text: 'Documents', id: 'tour-documents' },
+{ to: '/video-call', icon: <Video size={20} />, text: 'Video Call', id: 'tour-video-call' },
+{ to: '/payments', icon: <Wallet size={20} />, text: 'Payments', id: 'tour-payments' },
 ];
 const investorItems = [
   { to: '/dashboard/investor', icon: <Home size={20} />, text: 'Dashboard' },
@@ -53,8 +54,9 @@ const investorItems = [
   { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
   { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
   { to: '/deals', icon: <FileText size={20} />, text: 'Deals' },
-  { to: '/video-call', icon: <Video size={20} />, text: 'Video Call' },
-  { to: '/payments', icon: <Wallet size={20} />, text: 'Payments' },
+  { to: '/documents', icon: <FileText size={20} />, text: 'Documents', id: 'tour-documents' },
+{ to: '/video-call', icon: <Video size={20} />, text: 'Video Call', id: 'tour-video-call' },
+{ to: '/payments', icon: <Wallet size={20} />, text: 'Payments', id: 'tour-payments' },
 ];
   
   const sidebarItems = user.role === 'entrepreneur' ? entrepreneurItems : investorItems;
@@ -71,13 +73,14 @@ const investorItems = [
         <div className="flex-1 py-4 overflow-y-auto">
           <div className="px-3 space-y-1">
             {sidebarItems.map((item, index) => (
-              <SidebarItem
-                key={index}
-                to={item.to}
-                icon={item.icon}
-                text={item.text}
-              />
-            ))}
+  <SidebarItem
+    key={index}
+    to={item.to}
+    icon={item.icon}
+    text={item.text}
+    id={item.id}
+  />
+))}
           </div>
           
           <div className="mt-8 px-3">

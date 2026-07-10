@@ -11,6 +11,7 @@ import { useAuth } from '../../context/AuthContext';
 import { CollaborationRequest } from '../../types';
 import { getRequestsForEntrepreneur } from '../../data/collaborationRequests';
 import { investors } from '../../data/users';
+import { TourGuide } from '../../components/tour/TourGuide';
 
 export const EntrepreneurDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -43,8 +44,9 @@ export const EntrepreneurDashboard: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Welcome, {user.name}</h1>
           <p className="text-gray-600">Here's what's happening with your startup today</p>
+          <TourGuide />
         </div>
-        
+ 
         <Link to="/investors">
           <Button
             leftIcon={<PlusCircle size={18} />}
@@ -114,7 +116,9 @@ export const EntrepreneurDashboard: React.FC = () => {
           </CardBody>
         </Card>
       </div>
-      <MeetingCalendar />
+      <div id="meeting-calendar-section">
+  <MeetingCalendar />
+</div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Collaboration requests */}
         <div className="lg:col-span-2 space-y-4">
